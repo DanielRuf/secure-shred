@@ -116,7 +116,13 @@ final class Shred
    */
   private function fileWritable($filepath)
   {
-    if (is_readable($filepath) && is_writable($filepath)) {
+    // clear stat cache to avoid falsely reported file status
+    // use $filename parameter to possibly improve performance
+    clearstatcache(true, $filepath);
+
+    if (is_file($filepath)
+      && is_readable($filepath)
+      && is_writable($filepath)) {
       return true;
     }
 

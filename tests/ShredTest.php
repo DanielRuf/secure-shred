@@ -70,6 +70,19 @@ final class ShredTest extends TestCase
     );
   }
 
+  public function testCanNotShredDirectory()
+  {
+    $shred = new Shred\Shred();
+
+    $this->assertFalse(
+      $shred->shred(vfsStream::url("{$this->rootName}/{$this->testFolder}"), true)
+    );
+
+    $this->assertFileExists(
+      vfsStream::url("{$this->rootName}/{$this->testFolder}")
+    );
+  }
+
   public function testStats()
   {
     $file = file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}"));
