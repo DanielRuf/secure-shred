@@ -21,8 +21,6 @@ final class ShredTest extends TestCase
 
   public function testCanShred()
   {
-    $file = file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}"));
-
     $this->assertEquals(
       11,
       strlen(file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}")))
@@ -51,8 +49,6 @@ final class ShredTest extends TestCase
 
   public function testCanShredAndDelete()
   {
-    $file = file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}"));
-
     $this->assertEquals(
       11,
       strlen(file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}")))
@@ -85,8 +81,6 @@ final class ShredTest extends TestCase
 
   public function testStats()
   {
-    $file = file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}"));
-
     $this->assertEquals(
       11,
       strlen(file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}")))
@@ -95,6 +89,7 @@ final class ShredTest extends TestCase
     $oldContent = file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}"));
     $shred = new Shred\Shred(3, 3, true);
     $this->setOutputCallback(function () {
+      // noop
     });
 
     $this->assertEquals(
@@ -132,8 +127,6 @@ final class ShredTest extends TestCase
 
   public function testStatsCustom()
   {
-    $file = file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}"));
-
     $this->assertEquals(
       11,
       strlen(file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}")))
@@ -142,6 +135,7 @@ final class ShredTest extends TestCase
     $oldContent = file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}"));
     $shred = new Shred\Shred(5, 6, true);
     $this->setOutputCallback(function () {
+      // noop
     });
 
     $this->assertEquals(
@@ -179,8 +173,6 @@ final class ShredTest extends TestCase
 
   public function testStatsDelete()
   {
-    $file = file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}"));
-
     $this->assertEquals(
       11,
       strlen(file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}")))
@@ -188,6 +180,7 @@ final class ShredTest extends TestCase
 
     $shred = new Shred\Shred(3, 3, true);
     $this->setOutputCallback(function () {
+      // noop
     });
 
     $this->assertEquals(

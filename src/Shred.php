@@ -104,7 +104,7 @@ final class Shred
 
       return false;
     } catch (\Exception $e) {
-      throw new \Exception($e->getCode() . ' :: ' . $e->getMessage() . ' ::');
+      throw new RuntimeException($e->getCode() . ' :: ' . $e->getMessage() . ' ::');
     }
   }
 
@@ -137,8 +137,6 @@ final class Shred
    */
   private function overwriteFile($read, $write)
   {
-    $iterations = $this->iterations;
-
     while (!$read->eof()) {
       $line_tell   = $read->ftell();
       $line        = $read->fgets();
@@ -148,13 +146,11 @@ final class Shred
         continue;
       }
 
-      for ($n = 0; $n < $iterations; $n++) {
+      for ($n = 0; $n < $this->iterations; $n++) {
         $write->fseek($line_tell);
         $write->fwrite($this->stringRand($line_length));
       }
     }
-
-    return;
   }
 
   /**
@@ -166,14 +162,13 @@ final class Shred
    */
   private function stringRand($line_length)
   {
-    $block_size = $this->block_size;
-    $blocks = +($line_length / $block_size);
+    $blocks = +($line_length / $this->block_size);
 
     if (1 < $blocks) {
       $s    = '';
-      $rest = +($line_length - ($blocks * $block_size));
+      $rest = +($line_length - ($blocks * $this->block_size));
 
-      for ($n = 0; $n < $block_size; $n++) {
+      for ($n = 0; $n < $this->block_size; $n++) {
         $s .= random_bytes($blocks);
       }
 
