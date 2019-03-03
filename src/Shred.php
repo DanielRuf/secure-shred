@@ -33,7 +33,7 @@ final class Shred
    */
   private $stats;
 
-    /**
+  /**
    * Flush after each write. Default = false
    *
    * @var bool
