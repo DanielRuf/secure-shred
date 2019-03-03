@@ -82,28 +82,25 @@ final class Shred
   public function shred($filepath, $remove = true)
   {
     $unlink = true;
-    $iterations = $this->iterations;
-    $block_size = $this->block_size;
-    $stats = $this->stats;
 
     try {
       if ($this->fileWritable($filepath)) {
         $read  = new \SplFileObject($filepath, 'r');
         $write = new \SplFileObject($filepath, 'r+');
 
-        if ($stats) {
+        if ($this->stats) {
           $start = microtime(true);
         }
 
         $this->overwriteFile($read, $write);
 
-        if ($stats) {
+        if ($this->stats) {
           $end = microtime(true);
           $time = ($end-$start) * 1000;
 
           echo "\n";
-          echo "iterations: {$iterations}\n";
-          echo "block size: {$block_size}\n";
+          echo "iterations: {$this->iterations}\n";
+          echo "block size: {$this->block_size}\n";
           echo "took: {$time}ns\n";
         }
 
@@ -116,7 +113,7 @@ final class Shred
 
           $unlink = unlink($filepath);
 
-          if ($stats && $unlink) {
+          if ($this->stats && $unlink) {
             echo "successfully deleted {$filepath}\n";
           }
         }
