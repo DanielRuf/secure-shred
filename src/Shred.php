@@ -33,6 +33,13 @@ final class Shred
    */
   private $stats;
 
+    /**
+   * Flush after each write. Default = false
+   *
+   * @var bool
+   */
+  private $flush_after_write;
+
   /**
    * Set the iterations, block size, and statistics reporting.
    *
@@ -42,12 +49,27 @@ final class Shred
    * @param integer $iterations
    * @param integer $block_size
    * @param bool $stats
+   * @param bool $flush_after_write
    */
-  public function __construct($iterations = 3, $block_size = 3, $stats = false)
+  public function __construct($iterations = 3, $block_size = 3, $stats = false, $flush_after_write = false)
   {
+    if ($iterations === null) {
+      $iterations = 3;
+    }
+    if ($block_size === null) {
+      $block_size = 3;
+    }
+    if ($stats === null) {
+      $stats = false;
+    }
+    if ($flush_after_write === null) {
+      $flush_after_write = false;
+    }
+
     $this->iterations = +$iterations;
     $this->block_size = +$block_size;
     $this->stats = $stats;
+    $this->flush_after_write = $flush_after_write;
   }
 
   /**
@@ -149,6 +171,9 @@ final class Shred
       for ($n = 0; $n < $this->iterations; $n++) {
         $write->fseek($line_tell);
         $write->fwrite($this->stringRand($line_length));
+        if ($this->flush_after_write) {
+          $write->fflush();
+        }
       }
     }
   }
