@@ -51,8 +51,12 @@ final class Shred
    * @param bool $stats
    * @param bool $flush_after_write
    */
-  public function __construct($iterations = 3, $block_size = 3, $stats = false, $flush_after_write = false)
-  {
+  public function __construct(
+    $iterations = 3,
+    $block_size = 3,
+    $stats = false,
+    $flush_after_write = false
+  ) {
     if ($iterations === null) {
       $iterations = 3;
     }
@@ -79,7 +83,7 @@ final class Shred
    * @param bool $remove
    * @return bool
    */
-  public function shred($filepath, $remove = true)
+  public function shred($filepath, $remove = true, $mangle_filename = false)
   {
     $unlink = true;
 
@@ -111,10 +115,22 @@ final class Shred
           $read = null;
           $write = null;
 
+          if ($mangle_filename) {
+            $this->mangleFilename($filepath);
+          }
+
           $unlink = unlink($filepath);
 
           if ($this->stats && $unlink) {
             echo "successfully deleted {$filepath}\n";
+          }
+        } else {
+          // close the file handles
+          $read = null;
+          $write = null;
+
+          if ($mangle_filename) {
+            $this->mangleFilename($filepath);
           }
         }
 
@@ -123,8 +139,18 @@ final class Shred
 
       return false;
     } catch (\Exception $e) {
-      throw new RuntimeException($e->getCode() . ' :: ' . $e->getMessage() . ' ::');
+      throw new \RuntimeException($e->getCode() . ' :: ' . $e->getMessage() . ' ::');
     }
+  }
+
+  private function mangleFilename($filepath)
+  {
+    $filepath_old = $filepath;
+    $dirname = dirname($filepath_old);
+    $basename = basename($filepath_old);
+    $filepath_random = bin2hex(random_bytes(mb_strlen($basename)));
+    $filepath = $dirname . DIRECTORY_SEPARATOR . $filepath_random;
+    rename($filepath_old, $filepath);
   }
 
   /**

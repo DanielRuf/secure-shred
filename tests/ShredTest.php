@@ -47,6 +47,47 @@ final class ShredTest extends TestCase
     );
   }
 
+  public function testCanShredAndMangle()
+  {
+    $this->assertEquals(
+      11,
+      strlen(file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}")))
+    );
+
+    $oldContent = file_get_contents(vfsStream::url("{$this->rootName}/{$this->testFile}"));
+    $shred = new Shred\Shred();
+
+    $this->assertEquals(
+      true,
+      $shred->shred(vfsStream::url("{$this->rootName}/{$this->testFile}"), false, true)
+    );
+
+    $files = scandir(vfsStream::url("{$this->rootName}"));
+
+    $filesLen = array_map("mb_strlen", $files);
+
+    $fileLen = mb_strlen($this->testFile);
+
+    $this->assertContains(
+      $fileLen * 2,
+      $filesLen
+    );
+
+    $fileKey = array_search($fileLen * 2, $filesLen);
+
+    $newContent = file_get_contents(vfsStream::url("{$this->rootName}/{$files[$fileKey]}"));
+
+    $this->assertEquals(
+      11,
+      strlen(file_get_contents(vfsStream::url("{$this->rootName}/{$files[$fileKey]}")))
+    );
+
+    $this->assertNotEquals(
+      $oldContent,
+      $newContent
+    );
+  }
+
   public function testCanShredAndDelete()
   {
     $this->assertEquals(
