@@ -1,7 +1,7 @@
 {
     "name": "danielruf/secure-shred",
     "description": "Safely deletes files",
-    "version": "1.1.0",
+    "version": "2.0.0",
     "keywords": [
         "shred",
         "delete",
@@ -22,7 +22,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=7.3.0"
     },
     "scripts": {
         "test": "phpunit --colors=always --bootstrap ./vendor/autoload.php ./tests/ShredTest.php"

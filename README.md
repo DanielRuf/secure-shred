@@ -3,7 +3,7 @@
 Safely deletes files
 
 ## Requirements
-PHP >= 7.1 (PHP >= 5.4 is supported but requires `paragonie/random_compat`)
+PHP >= 7.3
 
 ## Installation
 
@@ -12,7 +12,7 @@ composer.json
 ```javascript
 {
 	"require": {
-		"danielruf/secure-shred": "^1"
+		"danielruf/secure-shred": "^2"
 	}
 }
 ```
