@@ -11,7 +11,7 @@ final class ShredTest extends TestCase
   private $testFile = 'test';
   private $testFolder = 'testFolder';
 
-  public function setUp()
+  protected function setUp(): void
   {
     vfsStreamWrapper::register();
     $this->root = vfsStream::setup($this->rootName);
@@ -109,7 +109,7 @@ final class ShredTest extends TestCase
       $shred->shred(vfsStream::url("{$this->rootName}/{$this->testFile}"), true)
     );
 
-    $this->assertFileNotExists(
+    $this->assertFileDoesNotExist(
       vfsStream::url("{$this->rootName}/{$this->testFile}")
     );
   }
@@ -157,17 +157,17 @@ final class ShredTest extends TestCase
       $newContent
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "iterations: 3\n",
       $this->getActualOutput()
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "block size: 3\n",
       $this->getActualOutput()
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "took: ",
       $this->getActualOutput()
     );
@@ -203,17 +203,17 @@ final class ShredTest extends TestCase
       $newContent
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "iterations: 5\n",
       $this->getActualOutput()
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "block size: 6\n",
       $this->getActualOutput()
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "took: ",
       $this->getActualOutput()
     );
@@ -236,22 +236,22 @@ final class ShredTest extends TestCase
       $shred->shred(vfsStream::url("{$this->rootName}/{$this->testFile}"), true)
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "iterations: 3\n",
       $this->getActualOutput()
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "block size: 3\n",
       $this->getActualOutput()
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "took: ",
       $this->getActualOutput()
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "successfully deleted vfs://{$this->rootName}/{$this->testFile}",
       $this->getActualOutput()
     );
@@ -318,17 +318,17 @@ final class ShredTest extends TestCase
       $newContent
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "iterations: 3\n",
       $this->getActualOutput()
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "block size: 3\n",
       $this->getActualOutput()
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "took: ",
       $this->getActualOutput()
     );
@@ -364,17 +364,17 @@ final class ShredTest extends TestCase
       $newContent
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "iterations: 5\n",
       $this->getActualOutput()
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "block size: 6\n",
       $this->getActualOutput()
     );
 
-    $this->assertContains(
+    $this->assertStringContainsString(
       "took: ",
       $this->getActualOutput()
     );
