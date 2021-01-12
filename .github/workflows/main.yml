@@ -22,7 +22,7 @@ jobs:
     - name: Run tests
       run: composer test
   code-style:
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
